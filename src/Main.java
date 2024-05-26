@@ -1,13 +1,41 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.text.ParseException;
+
 
 public class Main {
     public static void main(String[] args) {
         Scanner opcion = new Scanner(System.in);
         List<Cliente> listaClientes = new ArrayList<>();
+        
+     // Crear un cliente predefinido
+        Cliente clienteEjemplo = null;
+        try {
+            clienteEjemplo = new Cliente(
+                1,  // ID del cliente
+                false,  // Tipo de cliente VIP (false para no VIP, true para VIP)
+                "Juan",  // Nombre del cliente
+                "Perez",  // Apellido del cliente
+                "12345678",  // DNI del cliente
+                "Calle Falsa 123",  // Domicilio del cliente
+                new Fecha("01/01/1990"),  // Fecha de nacimiento del cliente
+                0,  // Incumplimientos del cliente
+                "test",  // Email del cliente
+                "123"  // Contraseña del cliente
+            );
+        } catch (ParseException e) {
+            System.out.println("Error al parsear la fecha de nacimiento del cliente: " + e.getMessage());
+        }
+        
+        if (clienteEjemplo != null) {
+            listaClientes.add(clienteEjemplo); // Agregar el cliente predefinido a la lista de clientes
+        }
+        
+        
         menuPrincipal(opcion, listaClientes);
     }
+
 
     public static void menuPrincipal(Scanner entrada, List<Cliente> listaClientes) {
         boolean salir = false;
@@ -55,8 +83,6 @@ public class Main {
     }
     
     
-    // Dejaré acá por el momento la función con las opciones
-    
     public static void clienteOpciones(Scanner entrada, Cliente cliente) {
         boolean salir = false;
         while (!salir) {
@@ -72,7 +98,10 @@ public class Main {
             entrada.nextLine();
             switch (opcion) {
                 case 1:
-                    Producto.seleccionarProducto(entrada);
+                	Producto producto = Producto.seleccionarProducto(entrada);
+                    if (producto != null) {
+                        System.out.println("Reserva realizada para: " + producto.getNombre());
+                    }
                     break;
                 case 2:
                     System.out.println("Esto representa la parte de realizar consultas");
