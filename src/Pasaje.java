@@ -1,4 +1,3 @@
-import java.util.Calendar;
 import java.util.Scanner;
 
 public class Pasaje extends Producto {
@@ -7,9 +6,8 @@ public class Pasaje extends Producto {
     private String horaLlegada;
     private String origen;
     private String destino;
-    private int cantidadPasajeros; // Nueva variable para la cantidad de pasajeros
+    private int cantidadPasajeros;
 
-    // Constructor
     Pasaje(String nombre, double precio, Fecha fecha, String horaSalida, String horaLlegada, String origen, String destino, int cantidadPasajeros) {
         super(nombre, precio);
         this.fecha = fecha;
@@ -17,10 +15,9 @@ public class Pasaje extends Producto {
         this.horaLlegada = horaLlegada;
         this.origen = origen;
         this.destino = destino;
-        this.cantidadPasajeros = cantidadPasajeros; // Asignar la cantidad de pasajeros
+        this.cantidadPasajeros = cantidadPasajeros;
     }
 
-    // Getters específicos
     public Fecha getFecha() {
         return fecha;
     }
@@ -64,21 +61,11 @@ public class Pasaje extends Producto {
                     fechaPasaje1 = Fecha.obtenerFecha(entrada.nextLine());
                 }
                 if (fechaPasaje1 != null) {
-                    int añoPasaje1 = fechaPasaje1.getAño();
-                    int mesPasaje1 = fechaPasaje1.getMes();
-                    int diaPasaje1 = fechaPasaje1.getDia();
-
-                    Calendar fechaPasaje = Calendar.getInstance();
-                    fechaPasaje.set(añoPasaje1, mesPasaje1 - 1, diaPasaje1); // Restamos 1 al mes porque en Calendar, enero es 0
-                    Calendar fechaActual = Calendar.getInstance();
-                    fechaActual.add(Calendar.YEAR, 0);
-                    if (fechaPasaje.before(fechaActual)) {
+                    if (!fechaPasaje1.esFechaFutura()) {
                         System.out.println("No puede ingresar un día que ya pasó.");
                         return;
                     }
                 }
-               
-           
                 System.out.print("Ingrese la cantidad de pasajeros: ");
                 int cantidadPasajeros1 = entrada.nextInt();
                 entrada.nextLine(); // Limpiar el buffer del scanner
@@ -94,20 +81,11 @@ public class Pasaje extends Producto {
                     fechaPasaje2 = Fecha.obtenerFecha(entrada.nextLine());
                 }
                 if (fechaPasaje2 != null) {
-                    int añoPasaje2 = fechaPasaje2.getAño();
-                    int mesPasaje2 = fechaPasaje2.getMes();
-                    int diaPasaje2 = fechaPasaje2.getDia();
-
-                    Calendar fechaPasaje = Calendar.getInstance();
-                    fechaPasaje.set(añoPasaje2, mesPasaje2 - 1, diaPasaje2); // Restamos 1 al mes porque en Calendar, enero es 0
-                    Calendar fechaActual2 = Calendar.getInstance();
-                    fechaActual2.add(Calendar.YEAR, 0);
-                    if (fechaPasaje.before(fechaActual2)) {
+                    if (!fechaPasaje2.esFechaFutura()) {
                         System.out.println("No puede ingresar un día que ya pasó.");
                         return;
                     }
                 }
-                
                 System.out.print("Ingrese la cantidad de pasajeros: ");
                 int cantidadPasajeros2 = entrada.nextInt();
                 entrada.nextLine(); // Limpiar el buffer del scanner
@@ -121,7 +99,6 @@ public class Pasaje extends Producto {
         }
     }
     
-    // Método para mostrar el pasaje creado
     private void mostrarPasaje(Pasaje pasaje) {
         System.out.println("Pasaje creado:");
         System.out.println("Nombre: " + pasaje.getNombre());

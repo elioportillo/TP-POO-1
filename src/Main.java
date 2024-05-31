@@ -1,41 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.text.ParseException;
-
 
 public class Main {
     public static void main(String[] args) {
         Scanner opcion = new Scanner(System.in);
         List<Cliente> listaClientes = new ArrayList<>();
-        
-     // Crear un cliente predefinido
-        Cliente clienteEjemplo = null;
-        try {
-            clienteEjemplo = new Cliente(
-                1,  // ID del cliente
-                false,  // Tipo de cliente VIP (false para no VIP, true para VIP)
-                "Juan",  // Nombre del cliente
-                "Perez",  // Apellido del cliente
-                "12345678",  // DNI del cliente
-                "Calle Falsa 123",  // Domicilio del cliente
-                new Fecha("01/01/1990"),  // Fecha de nacimiento del cliente
-                0,  // Incumplimientos del cliente
-                "test",  // Email del cliente
-                "123"  // Contraseña del cliente
-            );
-        } catch (ParseException e) {
-            System.out.println("Error al parsear la fecha de nacimiento del cliente: " + e.getMessage());
-        }
-        
-        if (clienteEjemplo != null) {
-            listaClientes.add(clienteEjemplo); // Agregar el cliente predefinido a la lista de clientes
-        }
-        
-        
         menuPrincipal(opcion, listaClientes);
     }
-
 
     public static void menuPrincipal(Scanner entrada, List<Cliente> listaClientes) {
         boolean salir = false;
@@ -83,6 +55,8 @@ public class Main {
     }
     
     
+    // Dejaré acá por el momento la función con las opciones
+    
     public static void clienteOpciones(Scanner entrada, Cliente cliente) {
         boolean salir = false;
         while (!salir) {
@@ -98,10 +72,7 @@ public class Main {
             entrada.nextLine();
             switch (opcion) {
                 case 1:
-                	Producto producto = Producto.seleccionarProducto(entrada);
-                    if (producto != null) {
-                        System.out.println("Reserva realizada para: " + producto.getNombre());
-                    }
+                    menuProductos(entrada);
                     break;
                 case 2:
                     System.out.println("Esto representa la parte de realizar consultas");
@@ -118,5 +89,43 @@ public class Main {
                     break;
             }
         }
+        
+        
     }
+    
+    public static void menuProductos(Scanner entrada) {
+    	System.out.println("1- Pasaje");
+        System.out.println("2- Experiencia");
+        System.out.println("3- Day Tour");
+        System.out.println("4- Paquete\n");
+        System.out.print("Seleccione su producto: ");
+        System.out.println("\n");
+        int opcionProducto = entrada.nextInt();
+        entrada.nextLine();
+        switch (opcionProducto) {
+            case 1:
+                // Lógica para seleccionar un pasaje
+                Pasaje pasaje = new Pasaje("Nombre del pasaje", 0, null, "", "", "", "",0);
+                pasaje.crearPasaje(entrada);
+                break;
+            case 2:
+                // Lógica para seleccionar una experiencia
+            	 Experiencia experiencia = new Experiencia("", 0, "", "");
+ 	             experiencia = experiencia.crearExperiencia(entrada);
+ 	             break; 	            
+            case 3:
+                // Lógica para seleccionar un Day Tour
+                System.out.println("Seleccionaste un Day Tour");
+                break;
+            case 4:
+                // Lógica para seleccionar un paquete
+                System.out.println("Seleccionaste un paquete");
+                break;
+            default:
+                System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
+                break;
+        }
+        
+}
+    
 }
