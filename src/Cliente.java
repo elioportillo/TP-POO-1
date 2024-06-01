@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Calendar; // Acá importamos calendar para usar las funciones al restringir rango de edad
 
@@ -14,6 +15,9 @@ public class Cliente {
     private String email;
     private String password;
     private static int contadorId = 1;
+    private List<Tarjeta> tarjetas;
+    private List<CuentaBancaria> cuentasBancarias;
+    private List<Reserva> reservas;
 
     // Constructor
     public Cliente(int idCliente, boolean clienteVIP, String nombre, String apellido, String dni,
@@ -28,6 +32,9 @@ public class Cliente {
         this.incumplimientos = incumplimientos;
         this.email = email;
         this.password = password;
+        this.tarjetas = new ArrayList<>();
+        this.cuentasBancarias = new ArrayList<>();
+        this.reservas = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -110,6 +117,42 @@ public class Cliente {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public List<Tarjeta> getTarjetas() {
+        return tarjetas;
+    }
+
+    public void setTarjetas(List<Tarjeta> tarjetas) {
+        this.tarjetas = tarjetas;
+    }
+
+    public void agregarTarjeta(Tarjeta tarjeta) {
+        this.tarjetas.add(tarjeta);
+    }
+    
+    public List<CuentaBancaria> getCuentasBancarias() {
+        return cuentasBancarias;
+    }
+    
+    public void setCuentasBancarias(List<CuentaBancaria> cuentasbancarias) {
+        this.cuentasBancarias = cuentasbancarias;
+    }
+    
+    public void agregarCuentaBancaria(CuentaBancaria cuentaBancaria) {
+        this.cuentasBancarias.add(cuentaBancaria);
+    }
+
+	public List<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(List<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+	
+    public void agregarReserva(Reserva reserva) {
+        this.reservas.add(reserva);
+    }
 
     @Override
     public String toString() {
@@ -187,6 +230,14 @@ public class Cliente {
             System.out.println(cliente.toString());
         }
 
+    }
+    
+    
+    public static void mostrarReservas(List<Reserva> listaReservas) {
+    	System.out.println("\nLista de Reservas:");
+        for (Reserva reserva : listaReservas) {
+            System.out.println(reserva.toString());
+        }
     }
 
     public static Cliente buscarCliente(String email, String password, List<Cliente> listaClientes) {

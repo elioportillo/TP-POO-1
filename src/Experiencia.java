@@ -26,6 +26,11 @@ class Experiencia extends Producto {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    @Override
+    public String toString() {
+        return "Experiencia - " + getNombre();
+    }
 
     // Método para mostrar las opciones de experiencia
     public void mostrarProductos() {

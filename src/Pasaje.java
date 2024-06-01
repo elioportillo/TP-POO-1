@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Calendar;
+
 
 public class Pasaje extends Producto {
     private Fecha fecha;
@@ -46,6 +48,11 @@ public class Pasaje extends Producto {
         System.out.println("1- Pasaje desde Argentina a Uruguay");
         System.out.println("2- Pasaje desde Uruguay a Argentina");
     }
+    
+    @Override
+    public String toString() {
+        return "Experiencia - " + getNombre();
+    }
 
     public void crearPasaje(Scanner entrada) {
         mostrarProductos();
@@ -61,7 +68,15 @@ public class Pasaje extends Producto {
                     fechaPasaje1 = Fecha.obtenerFecha(entrada.nextLine());
                 }
                 if (fechaPasaje1 != null) {
-                    if (!fechaPasaje1.esFechaFutura()) {
+                    int añoPasaje1 = fechaPasaje1.getAño();
+                    int mesPasaje1 = fechaPasaje1.getMes();
+                    int diaPasaje1 = fechaPasaje1.getDia();
+
+                    Calendar fechaPasaje = Calendar.getInstance();
+                    fechaPasaje.set(añoPasaje1, mesPasaje1 - 1, diaPasaje1); // Restamos 1 al mes porque en Calendar, enero es 0
+                    Calendar fechaActual = Calendar.getInstance();
+                    fechaActual.add(Calendar.YEAR, 0);
+                    if (fechaPasaje.before(fechaActual)) {
                         System.out.println("No puede ingresar un día que ya pasó.");
                         return;
                     }
@@ -81,9 +96,17 @@ public class Pasaje extends Producto {
                     fechaPasaje2 = Fecha.obtenerFecha(entrada.nextLine());
                 }
                 if (fechaPasaje2 != null) {
-                    if (!fechaPasaje2.esFechaFutura()) {
-                        System.out.println("No puede ingresar un día que ya pasó.");
-                        return;
+                    int añoPasaje2 = fechaPasaje2.getAño();
+                    int mesPasaje2 = fechaPasaje2.getMes();
+                    int diaPasaje2 = fechaPasaje2.getDia();
+
+                    Calendar fechaPasaje = Calendar.getInstance();
+                    fechaPasaje.set(añoPasaje2, mesPasaje2 - 1, diaPasaje2); // Restamos 1 al mes porque en Calendar, enero es 0
+                    Calendar fechaActual2 = Calendar.getInstance();
+                    fechaActual2.add(Calendar.YEAR, 0);
+                    if (fechaPasaje.before(fechaActual2)) {
+                    	System.out.println("No puede ingresar un día que ya pasó.");
+                    	return;
                     }
                 }
                 System.out.print("Ingrese la cantidad de pasajeros: ");
