@@ -39,7 +39,7 @@ public class MercadoPago {
 
     @Override
     public String toString() {
-        return "Titula de la cuenta = " + titular +
+        return "Titular de la cuenta = " + titular +
                ", Número de la cuenta = " + numCuenta +
                ", Número de comprobante = " + numComprobante + "\n";
     }
