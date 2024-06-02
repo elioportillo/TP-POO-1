@@ -31,20 +31,23 @@ public class Main {
             listaClientes.add(clienteEjemplo); // Agregar el cliente predefinido a la lista de clientes
         }
 
-        // Crear listas de experiencias y pasajes
+        // Listas de experiencias, pasajes y day tours
+        List<Pasaje> listaPasajes = new ArrayList<>();
+        listaPasajes.add(new Pasaje("Pasaje a Argentina", 300.0, new Fecha("15/06/2024"), "10:00", "18:00", "Buenos Aires", "Punta del este", 1));
+        listaPasajes.add(new Pasaje("Pasaje a Uruguay", 450.0, new Fecha("20/07/2024"), "12:00", "20:00", "Punta del este", "Buenos Aires", 1));
+        
         List<Experiencia> listaExperiencias = new ArrayList<>();
         listaExperiencias.add(new Experiencia("Playa del Carmen", 100.0, "Una experiencia inolvidable en la playa", "Vacaciones"));
         listaExperiencias.add(new Experiencia("Montañas Rocosas", 200.0, "Aventura en las montañas", "Aventura"));
         listaExperiencias.add(new Experiencia("Amazonas", 150.0, "Exploración en la selva", "Exploración"));
+        
+        List<DayTour> listaDayTours = new ArrayList<>();
+        listaDayTours.add(new DayTour("Colonia", 1000.0, "Pasaje ida y vuelta con vianda. Visita museo.", new Fecha("20/06/2024"), "16:30hs", "12hs", "Cristian Ciarallo"));
 
-        List<Pasaje> listaPasajes = new ArrayList<>();
-        listaPasajes.add(new Pasaje("Pasaje a Argentina", 300.0, new Fecha("15/06/2024"), "Nueva York", "10:00", "18:00", "A1", 0));
-        listaPasajes.add(new Pasaje("Pasaje a Uruguay", 450.0, new Fecha("20/07/2024"), "París", "12:00", "20:00", "B2", 0));
-
-        menuPrincipal(opcion, listaClientes, listaExperiencias, listaPasajes);
+        menuPrincipal(opcion, listaClientes, listaExperiencias, listaPasajes, listaDayTours);
     }
 
-    public static void menuPrincipal(Scanner entrada, List<Cliente> listaClientes, List<Experiencia> listaExperiencias, List<Pasaje> listaPasajes) {
+    public static void menuPrincipal(Scanner entrada, List<Cliente> listaClientes, List<Experiencia> listaExperiencias, List<Pasaje> listaPasajes, List<DayTour> listaDayTours) {
         boolean salir = false;
         while (!salir) {
             System.out.println("Menú Principal\n");
@@ -72,7 +75,7 @@ public class Main {
                     Cliente clienteEncontrado = Cliente.buscarCliente(email, password, listaClientes);
                     if (clienteEncontrado != null) {
                         System.out.println("Cliente encontrado: " + clienteEncontrado);
-                        clienteOpciones(entrada, clienteEncontrado, listaExperiencias, listaPasajes);
+                        clienteOpciones(entrada, clienteEncontrado, listaExperiencias, listaPasajes, listaDayTours);
                     } else {
                         System.out.println("Cliente no encontrado.");
                     }
@@ -88,7 +91,7 @@ public class Main {
         }
     }
 
-    public static void clienteOpciones(Scanner entrada, Cliente cliente, List<Experiencia> listaExperiencias, List<Pasaje> listaPasajes) {
+    public static void clienteOpciones(Scanner entrada, Cliente cliente, List<Experiencia> listaExperiencias, List<Pasaje> listaPasajes, List<DayTour> listaDayTours) {
         boolean salir = false;
         while (!salir) {
             System.out.println("\nMenú de opciones: \n");
@@ -104,7 +107,7 @@ public class Main {
             entrada.nextLine();
             switch (opcion) {
                 case 1:
-                    menuProductos(entrada, cliente, listaExperiencias, listaPasajes);
+                    menuProductos(entrada, cliente, listaExperiencias, listaPasajes, listaDayTours);
                     break;
                 case 2:
                     System.out.println("Esto representa la parte de realizar consultas");
@@ -129,7 +132,7 @@ public class Main {
         }
     }
 
-    public static void menuProductos(Scanner entrada, Cliente cliente, List<Experiencia> listaExperiencias, List<Pasaje> listaPasajes) {
+    public static void menuProductos(Scanner entrada, Cliente cliente, List<Experiencia> listaExperiencias, List<Pasaje> listaPasajes, List<DayTour> listaDayTours) {
         System.out.println("1- Pasaje");
         System.out.println("2- Experiencia");
         System.out.println("3- Day Tour");
@@ -146,6 +149,7 @@ public class Main {
                     System.out.println((i + 1) + ". " + listaPasajes.get(i).toString());
                 }
                 System.out.print("Seleccione el pasaje que desea reservar: ");
+                
                 int seleccionPasaje = entrada.nextInt();
                 entrada.nextLine();
                 if (seleccionPasaje > 0 && seleccionPasaje <= listaPasajes.size()) {
@@ -153,7 +157,7 @@ public class Main {
                     Pago pagoPasaje = new Pago(cliente);
                     try {
                         pagoPasaje.seleccionarMetodoDePago(entrada);
-                        Reserva nuevaReserva = new Reserva(cliente.getNombre() + ' ' + cliente.getApellido(), 1, "Hecha", new Fecha("01/06/2024"), pasaje.getPrecio());
+                        Reserva nuevaReserva = new Reserva(cliente.getNombre() + ' ' + cliente.getApellido(), 1, "Hecha", Fecha.obtenerFechaYHoraActual(), pasaje.getPrecio());
                         nuevaReserva.agregarProducto(pasaje);
                         cliente.agregarReserva(nuevaReserva);
                         System.out.println("Reserva realizada para: " + pasaje.getNombre());
@@ -173,6 +177,7 @@ public class Main {
                     System.out.println((i + 1) + ". " + listaExperiencias.get(i).toString());
                 }
                 System.out.print("Seleccione la experiencia que desea reservar: ");
+                
                 int seleccionExperiencia = entrada.nextInt();
                 entrada.nextLine();
                 if (seleccionExperiencia > 0 && seleccionExperiencia <= listaExperiencias.size()) {
@@ -180,7 +185,7 @@ public class Main {
                     Pago pagoExperiencia = new Pago(cliente);
                     try {
                         pagoExperiencia.seleccionarMetodoDePago(entrada);
-                        Reserva nuevaReserva = new Reserva(cliente.getNombre() + ' ' + cliente.getApellido(), 1, "Hecha", new Fecha("01/06/2024"), experiencia.getPrecio());
+                        Reserva nuevaReserva = new Reserva(cliente.getNombre() + ' ' + cliente.getApellido(), 1, "Hecha", Fecha.obtenerFechaYHoraActual(), experiencia.getPrecio());
                         nuevaReserva.agregarProducto(experiencia);
                         cliente.agregarReserva(nuevaReserva);
                         System.out.println("Reserva realizada para: " + experiencia.getNombre());
@@ -194,8 +199,33 @@ public class Main {
                 }
                 break;
             case 3:
-                // Lógica para seleccionar un Day Tour
-                System.out.println("Seleccionaste un Day Tour");
+                // Mostrar lista de experiencias
+                System.out.println("Lista de Day Tours Disponibles:");
+                for (int i = 0; i < listaDayTours.size(); i++) {
+                    System.out.println((i + 1) + ". " + listaDayTours.get(i).toString());
+                }
+                System.out.print("Seleccione el day tour que desea reservar: ");
+                
+                int seleccionDayTour = entrada.nextInt();
+                entrada.nextLine();
+                if (seleccionDayTour > 0 && seleccionDayTour <= listaExperiencias.size()) {
+                    DayTour daytour = listaDayTours.get(seleccionDayTour - 1);
+                    Pago pagoDayTour = new Pago(cliente);
+                    try {
+                    	pagoDayTour.seleccionarMetodoDePago(entrada);
+                        Reserva nuevaReserva = new Reserva(cliente.getNombre() + ' ' + cliente.getApellido(), 1, "Hecha", Fecha.obtenerFechaYHoraActual(), daytour.getPrecio());
+                        nuevaReserva.agregarProducto(daytour);
+                        cliente.agregarReserva(nuevaReserva);
+                        System.out.println("Reserva realizada para: " + daytour.getNombre());
+                        System.out.println("¡Gracias por elegir Buquealtoque!");
+                    } catch (Exception e) {
+                        System.out.println("Error al realizar el pago: " + e.getMessage());
+                        System.out.println("La reserva no ha podido realizarse.");
+                    }
+                } else {
+                    System.out.println("Opción no válida. Por favor, seleccione una opción válida.");
+                }
+                
                 break;
             case 4:
                 // Lógica para seleccionar un paquete
@@ -220,13 +250,19 @@ public class Main {
                 //Lógica para añadir una tarjeta al cliente
                 Tarjeta nuevaTarjeta = Tarjeta.crearTarjeta(entrada);
                 cliente.agregarTarjeta(nuevaTarjeta);
-                System.out.println("Tarjeta agregada al cliente: " + nuevaTarjeta);
+                System.out.println("Cuenta de Mercado Pago del cliente: " + nuevaTarjeta);
                 break;
             case 2:
                 //Lógica para añadir una cuenta bancaria al cliente
                 CuentaBancaria nuevaCuentaBancaria = CuentaBancaria.crearCuentaBancaria(entrada);
                 cliente.agregarCuentaBancaria(nuevaCuentaBancaria);
-                System.out.println("Cuenta bancaria agregada al cliente: " + nuevaCuentaBancaria);
+                System.out.println("Cuenta de Mercado Pago agregada al cliente: " + nuevaCuentaBancaria);
+                break;
+            case 3:
+                //Lógica para añadir una cuenta bancaria al cliente
+                MercadoPago nuevoMercadoPago = MercadoPago.crearMercadoPago(entrada);
+                cliente.agregarCuentaMercadoPago(nuevoMercadoPago);
+                System.out.println("Cuenta de Mercado Pago agregada al cliente: " + nuevoMercadoPago);
                 break;
             default:
                 System.out.println("Opcion no válida. Por favor, seleccione una opción válida.");

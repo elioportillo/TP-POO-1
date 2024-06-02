@@ -1,4 +1,3 @@
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,13 +6,13 @@ public class Reserva {
     private String clienteNombre;
     private int cantidadBodega;
     private String estadoReserva;
-    private Fecha fecha;
+    private String fecha;
     private double valorFinal;
     private List<Producto> productos;
     private static int contadorId = 1;
 
     // Constructor
-    public Reserva(String clienteNombre, int cantidadBodega, String estadoReserva, Fecha fecha, double valorFinal) {
+    public Reserva(String clienteNombre, int cantidadBodega, String estadoReserva, String fecha, double valorFinal) {
         this.idReserva = contadorId++;
         this.clienteNombre = clienteNombre;
         this.cantidadBodega = cantidadBodega;
@@ -56,11 +55,11 @@ public class Reserva {
         this.estadoReserva = estadoReserva;
     }
 
-    public Fecha getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Fecha fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -80,18 +79,12 @@ public class Reserva {
                 ", Productos = " + productos +
                 ", Estado de la reserva = " + estadoReserva +
                 ", Fecha = " + fecha +
-                ", Valor final = " + valorFinal + "\n";
+                ", Valor final = " + (valorFinal+200) + "\n";
     }
     
     public Reserva crearReserva(Cliente cliente, Producto producto) {
         int cantidadBodega = 1;
         String estadoReserva = "Hecha";
-        Fecha fecha = null;
-        try {
-            fecha = new Fecha("01/06/2024"); // Crear una nueva fecha (o recibirla como parámetro)
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
         Reserva nuevaReserva = new Reserva(cliente.getNombre(), cantidadBodega, estadoReserva, fecha, producto.getPrecio() + 200.0);
         nuevaReserva.agregarProducto(producto);

@@ -51,7 +51,7 @@ public class Pasaje extends Producto {
     
     @Override
     public String toString() {
-        return "Experiencia - " + getNombre();
+        return "Pasaje - " + getNombre();
     }
 
     public void crearPasaje(Scanner entrada) {

@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 class Experiencia extends Producto {
     private String lugar;
     private String descripcion;
@@ -68,12 +69,6 @@ class Experiencia extends Producto {
         
         return experiencia;
     }
-
-
-
-
-
-
 
 
     // Método para mostrar la experiencia creada

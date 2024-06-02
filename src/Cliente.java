@@ -17,6 +17,7 @@ public class Cliente {
     private static int contadorId = 1;
     private List<Tarjeta> tarjetas;
     private List<CuentaBancaria> cuentasBancarias;
+    private List<MercadoPago> cuentasMercadoPago;
     private List<Reserva> reservas;
 
     // Constructor
@@ -34,6 +35,7 @@ public class Cliente {
         this.password = password;
         this.tarjetas = new ArrayList<>();
         this.cuentasBancarias = new ArrayList<>();
+        this.cuentasMercadoPago = new ArrayList<>();
         this.reservas = new ArrayList<>();
     }
 
@@ -140,6 +142,18 @@ public class Cliente {
     
     public void agregarCuentaBancaria(CuentaBancaria cuentaBancaria) {
         this.cuentasBancarias.add(cuentaBancaria);
+    }
+    
+    public List<MercadoPago> getCuentasMercadoPago() {
+        return cuentasMercadoPago;
+    }
+    
+    public void setCuentasMercadoPago(List<MercadoPago> cuentasmercadopago) {
+        this.cuentasMercadoPago = cuentasmercadopago;
+    }
+    
+    public void agregarCuentaMercadoPago(MercadoPago mercadopago) {
+        this.cuentasMercadoPago.add(mercadopago);
     }
 
 	public List<Reserva> getReservas() {

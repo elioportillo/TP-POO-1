@@ -2,14 +2,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Pago {
-    private Cliente cliente;
     private List<Tarjeta> tarjetas;
     private List<CuentaBancaria> cuentasBancarias;
+    private List<MercadoPago> cuentasMercadoPago;
 
     public Pago(Cliente cliente) {
-        this.cliente = cliente;
         this.tarjetas = cliente.getTarjetas();
         this.cuentasBancarias = cliente.getCuentasBancarias();
+        this.cuentasMercadoPago = cliente.getCuentasMercadoPago();
     }
 
     public void seleccionarMetodoDePago(Scanner entrada) throws Exception {
@@ -27,6 +27,9 @@ public class Pago {
             case 2:
                 pagoConCuentaBancaria(entrada);
                 break;
+            case 3:
+            	pagoConMercadoPago(entrada);
+            	break;
             default:
                 throw new Exception("Error, ingrese una opción válida");
         }
@@ -69,6 +72,26 @@ public class Pago {
         } else {
             CuentaBancaria cuentaSeleccionada = cuentasBancarias.get(opcion - 1);
             System.out.println("Pago realizado con la cuenta bancaria: " + cuentaSeleccionada.getNumCuenta());
+        }
+    }
+    
+    private void pagoConMercadoPago(Scanner entrada) throws Exception {
+        if (cuentasMercadoPago.isEmpty()) {
+            throw new Exception("No tiene cuentas de Mercado Pago. Por favor, agregue una primero.");
+        }
+
+        System.out.println("Seleccione una cuenta de Mercado Pago para el pago:");
+        for (int i = 0; i < cuentasMercadoPago.size(); i++) {
+            System.out.println((i + 1) + " - " + cuentasMercadoPago.get(i));
+        }
+
+        int opcion = entrada.nextInt();
+        entrada.nextLine();
+        if (opcion < 1 || opcion > cuentasMercadoPago.size()) {
+            throw new Exception("Error, ingrese una opción válida");
+        } else {
+            MercadoPago cuentaSeleccionada = cuentasMercadoPago.get(opcion - 1);
+            System.out.println("Pago realizado con la cuenta de Mercado Pago: " + cuentaSeleccionada.getNumCuenta());
         }
     }
 
